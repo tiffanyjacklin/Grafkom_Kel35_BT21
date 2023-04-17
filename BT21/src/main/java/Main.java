@@ -1,7 +1,5 @@
 import Engine.*;
 import Engine.Object;
-import org.joml.Matrix4f;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
@@ -23,9 +21,6 @@ public class Main {
     private ArrayList<Object> van
             = new ArrayList<>();
     private ArrayList<Object> koya = new ArrayList<>();
-
-    boolean objectClicked = false;
-    int objectClikedIndex;
     float degKakiKiriNaik = 0f;
     float degKakiKiriTurun = 0.5f;
     float degKakiKananNaik = 0f;
@@ -43,10 +38,6 @@ public class Main {
     float besarMataTutup = 0.9f;
     boolean tutupMata = true;
     boolean mulutHappy = true;
-    float degJalanMajuKiri = 0.0f;
-    float degJalanMundurKiri = 0.0f;
-    float degJalanMajuTengahKiri = 0.0f;
-    boolean lompat = true;
     int belomZ = 0, belomC = 0, geserChimmy = 0, geserKoya = 0, geserVan = 0, geserSemua = 0;
     int arah = 1;
     boolean terbang = false;
@@ -55,6 +46,7 @@ public class Main {
         window.init();
         GL.createCapabilities();
 
+        // BACKGROUND
         background.add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -80,7 +72,7 @@ public class Main {
         background.get(0).rotateObject((float) Math.toRadians(168f), 0f, 0f, 1f);
         background.get(0).translateObject(0.0f, -0.64f, 0.8f);
 
-//lighter block
+        //lighter block
         background.get(0).getChildObject().add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -105,7 +97,8 @@ public class Main {
         background.get(0).getChildObject().get(0).scaleObject(6.0f, 0.1f, 0.3f);
         background.get(0).getChildObject().get(0).rotateObject((float) Math.toRadians(168f), 0f, 0f, 1f);
         background.get(0).getChildObject().get(0).translateObject(0.0f, 0.45f, 0.8f);
-//darker block
+
+        //darker block
         background.get(0).getChildObject().add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -130,7 +123,8 @@ public class Main {
         background.get(0).getChildObject().get(1).scaleObject(6.0f, 0.1f, 0.4f);
         background.get(0).getChildObject().get(1).rotateObject((float) Math.toRadians(168f), 0f, 0f, 1f);
         background.get(0).getChildObject().get(1).translateObject(0.0f, 0.4f, 0.85f);
-//sidewalk
+
+        //sidewalk
         background.get(0).getChildObject().add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -156,6 +150,7 @@ public class Main {
         background.get(0).getChildObject().get(2).rotateObject((float) Math.toRadians(168f), 0f, 0f, 1f);
         background.get(0).getChildObject().get(2).translateObject(0.0f, 1.19f, 0.8f);
 
+        //street
         background.get(0).getChildObject().add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -180,6 +175,8 @@ public class Main {
         background.get(0).getChildObject().get(3).scaleObject(5.f, 0.35f, 0.1f);
         background.get(0).getChildObject().get(3).rotateObject((float) Math.toRadians(42f), 0f, 0f, 1f);
         background.get(0).getChildObject().get(3).translateObject(-0.4f, -0.6f, 0.8f);
+
+        //street
         background.get(0).getChildObject().add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -205,6 +202,7 @@ public class Main {
         background.get(0).getChildObject().get(4).rotateObject((float) Math.toRadians(42f), 0f, 0f, 1f);
         background.get(0).getChildObject().get(4).translateObject(-1.8f, -0.2f, 0.8f);
 
+        //crosswalk putih
         background.get(0).getChildObject().add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -279,6 +277,7 @@ public class Main {
         background.get(0).getChildObject().get(7).scaleObject(6.0f, 0.26f, 0.1f);
         background.get(0).getChildObject().get(7).rotateObject((float) Math.toRadians(165f), 0f, 0f, 1f);
         background.get(0).getChildObject().get(7).translateObject(0.0f, -0.2f, 0.8f);
+
         background.get(0).getChildObject().add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -303,6 +302,7 @@ public class Main {
         background.get(0).getChildObject().get(8).scaleObject(6.0f, 0.29f, 0.1f);
         background.get(0).getChildObject().get(8).rotateObject((float) Math.toRadians(164f), 0f, 0f, 1f);
         background.get(0).getChildObject().get(8).translateObject(0.0f, -0.45f, 0.8f);
+
         background.get(0).getChildObject().add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -353,8 +353,8 @@ public class Main {
         background.get(0).getChildObject().get(10).rotateObject((float) Math.toRadians(162f), 0f, 0f, 1f);
         background.get(0).getChildObject().get(10).translateObject(-0.6f, -0.9f, 0.8f);
 
-
-        //badan
+        // CHIMMY
+        // badan chimmy
         chimmy.add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -378,7 +378,8 @@ public class Main {
         ));
         chimmy.get(0).scaleObject(0.4f, 0.15f, 0.2f);
         chimmy.get(0).rotateObject((float) Math.toRadians(90f),1f,0f,0f);
-        //patokan kepala
+
+        //patokan kepala chimmy
         chimmy.get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -406,7 +407,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(0).scaleObject(0.03f,0.03f,0.03f);
         chimmy.get(0).getChildObject().get(0).translateObject(0.0f, 0.16f, 0.0f);
 
-        //kepala kuning besar (chimmy)
+        //kepala kuning besar chimmy
         chimmy.get(0).getChildObject().get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -437,7 +438,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(0).getChildObject().get(0).scaleObject(1.15f, 1.0f, 1.0f);
         chimmy.get(0).getChildObject().get(0).setDegrees(180f);
 
-        // kepala kuning kecil
+        // kepala kuning kecil chimmy
         chimmy.get(0).getChildObject().get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -466,7 +467,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(0).getChildObject().get(1).translateObject(0.0f, 0.65f, 0.0f);
         chimmy.get(0).getChildObject().get(0).getChildObject().get(1).scaleObject(0.6f, 0.3f, 0.25f);
 
-        // kepala putih
+        // kepala putih chimmy
         chimmy.get(0).getChildObject().get(0).getChildObject().add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -494,7 +495,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(0).getChildObject().get(2).translateObject(0.0f, 0.27f, 0.11f);
         chimmy.get(0).getChildObject().get(0).getChildObject().get(2).rotateObject((float)Math.toRadians(180f), 0f,1f,0f);
 
-        //mata kiri
+        //mata kiri chimmy
         chimmy.get(0).getChildObject().get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -523,7 +524,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(0).getChildObject().get(3).translateObject(0.05f, 0.3f, 0.12f);
         chimmy.get(0).getChildObject().get(0).getChildObject().get(3).rotateObject((float)Math.toRadians(180f), 0f,1f,0f);
 
-        //mata kanan
+        //mata kanan chimmy
         chimmy.get(0).getChildObject().get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -552,7 +553,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(0).getChildObject().get(4).translateObject(-0.05f, 0.3f, 0.12f);
         chimmy.get(0).getChildObject().get(0).getChildObject().get(4).rotateObject((float)Math.toRadians(180f), 0f,1f,0f);
 
-        // hidung
+        // hidung chimmy
         chimmy.get(0).getChildObject().get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -582,7 +583,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(0).getChildObject().get(5).translateObject(-0.27f, 0.0f,-0.12f);
         chimmy.get(0).getChildObject().get(0).getChildObject().get(5).rotateObject((float)Math.toRadians(270f), 0f,0f,1f);
 
-        // lidah
+        // lidah chimmy
         chimmy.get(0).getChildObject().get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -611,7 +612,8 @@ public class Main {
         chimmy.get(0).getChildObject().get(0).getChildObject().get(6).scaleObject(0.05f,0.04f,0.01f);
         chimmy.get(0).getChildObject().get(0).getChildObject().get(6).translateObject(-0.185f, 0.18f,-0.12f);
         chimmy.get(0).getChildObject().get(0).getChildObject().get(6).rotateObject((float)Math.toRadians(300f), 0.0f,0.0f,1f);
-        //patokan telinga kanan
+
+        //patokan telinga kanan chimmy
         chimmy.get(0).getChildObject().get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -640,7 +642,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(0).getChildObject().get(7).scaleObject(0.01f,0.01f,0.01f);
         chimmy.get(0).getChildObject().get(0).getChildObject().get(7).translateObject(0.2f, 0.48f,0.0f);
 
-        // telinga kanan
+        // telinga kanan chimmy
         chimmy.get(0).getChildObject().get(0).getChildObject().get(7).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -670,7 +672,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(0).getChildObject().get(7).getChildObject().get(0).translateObject(-0.34f, 0.41f,0.0f);
         chimmy.get(0).getChildObject().get(0).getChildObject().get(7).getChildObject().get(0).rotateObject((float)Math.toRadians(300f), 0.0f,0.0f,1.0f);
 
-        //patokan telinga kiri
+        //patokan telinga kiri chimmy
         chimmy.get(0).getChildObject().get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -698,9 +700,9 @@ public class Main {
         );
         chimmy.get(0).getChildObject().get(0).getChildObject().get(8).scaleObject(0.01f,0.01f,0.01f);
         chimmy.get(0).getChildObject().get(0).getChildObject().get(8).translateObject(-0.2f, 0.48f,0.0f);
-        // telinga kiri
+
+        // telinga kiri chimmy
         chimmy.get(0).getChildObject().get(0).getChildObject().get(8).getChildObject().add(
-//        chimmy.get(0).getChildObject().get(1).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -751,22 +753,14 @@ public class Main {
                                         new Vector3f(-0.043f, -0.12127f, 0),
                                         new Vector3f(-0.042f, -0.121f, 0.f),
                                         new Vector3f(-0.041f, -0.1205f, 0.f)
-//                                        new Vector3f(-0.75f, -0.75f, 0.0f),
-//                                        new Vector3f(-0.5f, -0.5f, 0.0f),
-//                                        new Vector3f(-0.25f, -0.75f, 0.0f)
                                 )
                         ), new Vector4f(0.01176f, 0.01569f, 0.0f, 0.0f)
                 )
         );
         chimmy.get(0).getChildObject().get(0).getChildObject().get(9).scaleObject(20.5f, 10.5f, 0.0001f);
-//        koya.get(0).getChildObject().get(0).getChildObject().get(3).translateObject(0.462f, 1.205f, -0.14f);
-
         chimmy.get(0).getChildObject().get(0).getChildObject().get(9).translateObject(0.9f,1.51f,-0.12f);
-//        chimmy.get(0).getChildObject().get(0).getChildObject().get(9).scaleObject(0.4f,0.08f,0.3f);
-//        chimmy.get(0).getChildObject().get(0).getChildObject().get(9).translateObject(-0.34f, -0.41f,0.0f);
-//        chimmy.get(0).getChildObject().get(0).getChildObject().get(9).rotateObject((float)Math.toRadians(240f), 0.0f,0.0f,1.0f);
 
-        //patokan tangan kanan
+        //patokan tangan kanan chimmy
         chimmy.get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -794,7 +788,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(1).scaleObject(0.03f,0.03f,0.03f);
         chimmy.get(0).getChildObject().get(1).translateObject(0.2f, 0.06f, 0.0f);
 
-        //tangan kanan
+        //tangan kanan chimmy
         chimmy.get(0).getChildObject().get(1).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -824,7 +818,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(1).getChildObject().get(0).rotateObject((float) Math.toRadians(290f),0f,0f,1f);
         chimmy.get(0).getChildObject().get(1).getChildObject().get(0).translateObject(0.225f, 0.0f, 0.0f);
 
-        // tangan kanan putih
+        // tangan kanan putih chimmy
         chimmy.get(0).getChildObject().get(1).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -854,7 +848,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(1).getChildObject().get(1).rotateObject((float) Math.toRadians(290f),0f,0f,1f);
         chimmy.get(0).getChildObject().get(1).getChildObject().get(1).translateObject(0.25f, -0.063f, 0.0f);
 
-        //patokan tangan kiri
+        //patokan tangan kiri chimmy
         chimmy.get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -881,9 +875,8 @@ public class Main {
         );
         chimmy.get(0).getChildObject().get(2).scaleObject(0.03f,0.03f,0.03f);
         chimmy.get(0).getChildObject().get(2).translateObject(-0.2f, 0.06f, 0.0f);
-//        chimmy.get(0).getChildObject().get(12).translateObject(-0.03f, 0.07f, -0.07f);
 
-        //tangan kiri
+        //tangan kiri chimmy
         chimmy.get(0).getChildObject().get(2).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -909,11 +902,11 @@ public class Main {
                         0.05f, 36,18,6
                 )
         );
-
         chimmy.get(0).getChildObject().get(2).getChildObject().get(0).scaleObject(0.2f, 0.1f, 0.1f);
         chimmy.get(0).getChildObject().get(2).getChildObject().get(0).rotateObject((float) Math.toRadians(110f),0f,0f,-1f);
         chimmy.get(0).getChildObject().get(2).getChildObject().get(0).translateObject(-0.225f, 0.0f, 0.0f);
-        // tangan kanan putih
+
+        // tangan kanan putih chimmy
         chimmy.get(0).getChildObject().get(2).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -939,12 +932,11 @@ public class Main {
                         0.05f, 36,18,0
                 )
         );
-
         chimmy.get(0).getChildObject().get(2).getChildObject().get(1).scaleObject(0.075f, 0.075f, 0.075f);
         chimmy.get(0).getChildObject().get(2).getChildObject().get(1).rotateObject((float) Math.toRadians(250f),0f,0f,1f);
         chimmy.get(0).getChildObject().get(2).getChildObject().get(1).translateObject(-0.25f, -0.063f, 0.0f);
 
-        //patokan kaki kanan
+        //patokan kaki kanan chimmy
         chimmy.get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -972,7 +964,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(3).scaleObject(0.03f,0.03f,0.03f);
         chimmy.get(0).getChildObject().get(3).translateObject(0.1f, -0.1f, 0.0f);
 
-        // kaki kanan
+        // kaki kanan chimmy
         chimmy.get(0).getChildObject().get(3).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -1001,7 +993,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(3).getChildObject().get(0).scaleObject(0.2f, 0.4f, 0.2f);
         chimmy.get(0).getChildObject().get(3).getChildObject().get(0).translateObject(0.1f, -0.1f, 0.0f);
 
-        // kaki kanan bawah
+        // kaki kanan bawah chimmy
         chimmy.get(0).getChildObject().get(3).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -1030,7 +1022,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(3).getChildObject().get(1).scaleObject(0.2f, 0.1f, 0.2f);
         chimmy.get(0).getChildObject().get(3).getChildObject().get(1).translateObject(0.1f, -0.25f, 0.0f);
 
-        //patokan kaki kiri
+        //patokan kaki kiri chimmy
         chimmy.get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -1058,7 +1050,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(4).scaleObject(0.03f,0.03f,0.03f);
         chimmy.get(0).getChildObject().get(4).translateObject(-0.1f, -0.1f, 0.0f);
 
-        // kaki kiri
+        // kaki kiri chimmy
         chimmy.get(0).getChildObject().get(4).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -1087,7 +1079,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(4).getChildObject().get(0).scaleObject(0.2f, 0.4f, 0.2f);
         chimmy.get(0).getChildObject().get(4).getChildObject().get(0).translateObject(-0.1f, -0.1f, 0.0f);
 
-        // kaki kiri bawah
+        // kaki kiri bawah chimmy
         chimmy.get(0).getChildObject().get(4).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -1116,7 +1108,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(4).getChildObject().get(1).scaleObject(0.2f, 0.1f, 0.2f);
         chimmy.get(0).getChildObject().get(4).getChildObject().get(1).translateObject(-0.1f, -0.25f, 0.0f);
 
-        //patokan gandul" kanan
+        //patokan gandul" kanan chimmy
         chimmy.get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -1143,7 +1135,8 @@ public class Main {
         );
         chimmy.get(0).getChildObject().get(5).scaleObject(0.01f,0.01f,0.01f);
         chimmy.get(0).getChildObject().get(5).translateObject(0.03f, 0.07f, -0.07f);
-        // gandul" kanan
+
+        // gandul" kanan chimmy
         chimmy.get(0).getChildObject().get(5).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -1170,7 +1163,8 @@ public class Main {
         );
         chimmy.get(0).getChildObject().get(5).getChildObject().get(0).scaleObject(0.03f,0.03f,0.03f);
         chimmy.get(0).getChildObject().get(5).getChildObject().get(0).translateObject(0.03f, -0.02f, -0.09f);
-        // tali kanan
+
+        // tali kanan chimmy
         chimmy.get(0).getChildObject().get(5).getChildObject().add(
                 new Curve(
                         Arrays.asList(
@@ -1196,8 +1190,7 @@ public class Main {
         chimmy.get(0).getChildObject().get(5).getChildObject().get(1).translateObject(1.37f,1.3f,-0.085f);
         chimmy.get(0).getChildObject().get(5).getChildObject().get(1).rotateObject((float)Math.toRadians(280f), 0.0f,0.0f,1.0f);
 
-//        chimmy.get(0).getChildObject().get(5).getChildObject().get(1).translateObject(0.9f,1.51f,-0.12f);
-        //patokan gandul" kiri
+        //patokan gandul" kiri chimmy
         chimmy.get(0).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -1224,7 +1217,8 @@ public class Main {
         );
         chimmy.get(0).getChildObject().get(6).scaleObject(0.01f,0.01f,0.01f);
         chimmy.get(0).getChildObject().get(6).translateObject(-0.03f, 0.07f, -0.07f);
-        // gandul" kiri
+
+        // gandul" kiri chimmy
         chimmy.get(0).getChildObject().get(6).getChildObject().add(
                 new Sphere(
                         Arrays.asList(
@@ -1251,7 +1245,8 @@ public class Main {
         );
         chimmy.get(0).getChildObject().get(6).getChildObject().get(0).scaleObject(0.03f,0.03f,0.03f);
         chimmy.get(0).getChildObject().get(6).getChildObject().get(0).translateObject(-0.04f, -0.02f, -0.09f);
-        // tali kanan
+
+        // tali kanan chimmy
         chimmy.get(0).getChildObject().get(6).getChildObject().add(
                 new Curve(
                         Arrays.asList(
@@ -1269,9 +1264,6 @@ public class Main {
                                         new Vector3f(-0.043f, -0.12127f, 0),
                                         new Vector3f(-0.042f, -0.121f, 0.f),
                                         new Vector3f(-0.041f, -0.1205f, 0.f)
-//                                        new Vector3f(-0.75f, -0.75f, 0.0f),
-//                                        new Vector3f(-0.5f, -0.5f, 0.0f),
-//                                        new Vector3f(-0.25f, -0.75f, 0.0f)
                                 )
                         ), new Vector4f(0.91765f, 0.42745f, 0.02353f, 0.0f)
                 )
@@ -1279,54 +1271,9 @@ public class Main {
         chimmy.get(0).getChildObject().get(6).getChildObject().get(1).scaleObject(30.5f, 10.5f, 0.0001f);
         chimmy.get(0).getChildObject().get(6).getChildObject().get(1).translateObject(1.32f,1.31f,-0.085f);
         chimmy.get(0).getChildObject().get(6).getChildObject().get(1).rotateObject((float)Math.toRadians(80f), 0.0f,0.0f,1.0f);
-//code
-//        van.add(new Object2d(
-//                Arrays.asList(
-//                        //shaderFile lokasi menyesuaikan objectnya
-//                        new ShaderProgram.ShaderModuleData
-//                                ("resources/shaders/scene.vert"
-//                                        , GL_VERTEX_SHADER),
-//                        new ShaderProgram.ShaderModuleData
-//                                ("resources/shaders/scene.frag"
-//                                        , GL_FRAGMENT_SHADER)
-//                ),
-//                new ArrayList<>(
-//                        List.of(
-//                                new Vector3f(0.0f,0.5f,0.0f),
-//                                new Vector3f(-0.5f,-0.5f,0.0f),
-//                                new Vector3f(0.5f,-0.5f,0.0f)
-//                        )
-//                ),
-//                new Vector4f(0.0f,0.0f,1.0f,1.0f)
-//        ));
-//
-//        van.add(new Object2d(
-//                Arrays.asList(
-//                        //shaderFile lokasi menyesuaikan objectnya
-//                        new ShaderProgram.ShaderModuleData
-//                                ("resources/shaders/sceneWithVerticesColor.vert"
-//                                        , GL_VERTEX_SHADER),
-//                        new ShaderProgram.ShaderModuleData
-//                                ("resources/shaders/sceneWithVerticesColor.frag"
-//                                        , GL_FRAGMENT_SHADER)
-//                ),
-//                new ArrayList<>(
-//                        List.of(
-//                                new Vector3f(0.0f,0.5f,0.0f),
-//                                new Vector3f(-0.5f,-0.5f,0.0f),
-//                                new Vector3f(0.5f,-0.5f,0.0f)
-//                        )
-//                ),
-//                new ArrayList<>(
-//                        List.of(
-//                                new Vector3f(1.0f,0.5f,0.0f),
-//                                new Vector3f(0.0f,1.0f,0.0f),
-//                                new Vector3f(0.0f,0.0f,1.0f)
-//                        )
-//                )
-//        ));
-//
-        // Badan abu abu
+
+        // VAN
+        // Badan abu abu van
         van.add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1357,7 +1304,7 @@ public class Main {
         van.get(0).scaleObject(0.14f, 0.17f, 0.1f);
         van.get(0).translateObject(-0.07f, 0.115f, 0f);
 
-        // Badan putih
+        // Badan putih van
         van.get(0).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1383,12 +1330,11 @@ public class Main {
                         36, 18, 3
                 )
         );
-
         van.get(0).getChildObject().get(0).rotateObject((float) Math.toRadians(90f), 1f, 0f, 0f);
         van.get(0).getChildObject().get(0).scaleObject(0.14f, 0.17f, 0.1f);
         van.get(0).getChildObject().get(0).translateObject(0.07f, 0.115f, 0f);
 
-        // Patokan Lengan kiri
+        // Patokan Lengan kiri van
         van.get(0).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1414,11 +1360,10 @@ public class Main {
                         36, 18, 4
                 )
         );
-
         van.get(0).getChildObject().get(1).scaleObject(0.03f, 0.03f, 0.03f);
         van.get(0).getChildObject().get(1).translateObject(-0.14f, 0.083f, 0f);
 
-        // Lengan kiri
+        // Lengan kiri van
         van.get(0).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1449,7 +1394,7 @@ public class Main {
         van.get(0).getChildObject().get(2).rotateObject((float) Math.toRadians(240f), 0f, 0f, 1f);
         van.get(0).getChildObject().get(2).translateObject(-0.1f, 0.076f, 0f);
 
-        // Patokan Lengan kanan
+        // Patokan Lengan kanan van
         van.get(0).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1478,7 +1423,7 @@ public class Main {
         van.get(0).getChildObject().get(3).scaleObject(0.03f, 0.03f, 0.03f);
         van.get(0).getChildObject().get(3).translateObject(0.14f, 0.083f, 0f);
 
-        // Lengan kanan
+        // Lengan kanan van
         van.get(0).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1508,7 +1453,7 @@ public class Main {
         van.get(0).getChildObject().get(4).rotateObject((float) Math.toRadians(120f), 0f, 0f, 1f);
         van.get(0).getChildObject().get(4).translateObject(0.1f, 0.076f, 0f);
 
-        // Patokan Kaki kiri
+        // Patokan Kaki kiri van
         van.get(0).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1538,7 +1483,7 @@ public class Main {
         van.get(0).getChildObject().get(5).scaleObject(0.03f, 0.03f, 0.03f);
         van.get(0).getChildObject().get(5).translateObject(-0.076f, -0.02f, 0f);
 
-        // Kaki abu abu
+        // Kaki abu abu van
         van.get(0).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1569,7 +1514,7 @@ public class Main {
         van.get(0).getChildObject().get(6).scaleObject(0.13f, 0.08f, 0.1f);
         van.get(0).getChildObject().get(6).translateObject(-0.076f, -0.06f, 0f);
 
-        // Telapak kaki abu abu
+        // Telapak kaki abu abu van
         van.get(0).getChildObject().get(6).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1599,7 +1544,7 @@ public class Main {
         van.get(0).getChildObject().get(6).getChildObject().get(0).rotateObject((float) Math.toRadians(270f), 0f, 0f, 1f);
         van.get(0).getChildObject().get(6).getChildObject().get(0).translateObject(-0.076f, -0.12f, 0f);
 
-        // Patokan Kaki kanan
+        // Patokan Kaki kanan van
         van.get(0).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1629,7 +1574,7 @@ public class Main {
         van.get(0).getChildObject().get(7).scaleObject(0.03f, 0.03f, 0.03f);
         van.get(0).getChildObject().get(7).translateObject(0.076f, -0.02f, 0f);
 
-        // Kaki putih
+        // Kaki putih van
         van.get(0).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1659,7 +1604,7 @@ public class Main {
         van.get(0).getChildObject().get(8).scaleObject(0.13f, 0.08f, 0.1f);
         van.get(0).getChildObject().get(8).translateObject(0.076f, -0.06f, 0f);
 
-        // Telapak kaki putih
+        // Telapak kaki putih van
         van.get(0).getChildObject().get(8).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1689,7 +1634,7 @@ public class Main {
         van.get(0).getChildObject().get(8).getChildObject().get(0).rotateObject((float) Math.toRadians(270f), 0f, 0f, 1f);
         van.get(0).getChildObject().get(8).getChildObject().get(0).translateObject(0.076f, -0.12f, 0f);
 
-        // Kepala abu abu
+        // Kepala abu abu van
         van.get(0).getChildObject().add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -1714,13 +1659,12 @@ public class Main {
                 0.125f,
                 36, 18, 0
         ));
-
         van.get(0).getChildObject().get(9).setDegrees(180f);
         van.get(0).getChildObject().get(9).rotateObject((float) Math.toRadians(180f), 0f, 0f, 1f);
         van.get(0).getChildObject().get(9).scaleObject(0.4f, 0.4f, 0.4f);
         van.get(0).getChildObject().get(9).translateObject(0f, 0.3f, 0f);
 
-        // Kepala putih
+        // Kepala putih van
         van.get(0).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1746,12 +1690,10 @@ public class Main {
                         36, 18, 0
                 )
         );
-
         van.get(0).getChildObject().get(10).scaleObject(0.4f, 0.4f, 0.4f);
         van.get(0).getChildObject().get(10).translateObject(0f, 0.3f, 0f);
 
-
-        // Tanduk abu abu
+        // Tanduk abu abu van
         van.get(0).getChildObject().get(9).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1781,7 +1723,7 @@ public class Main {
         van.get(0).getChildObject().get(9).getChildObject().get(0).scaleObject(0.16f, 0.11f, 0.2f);
         van.get(0).getChildObject().get(9).getChildObject().get(0).translateObject(0f, 0.59f, 0f);
 
-        // Tanduk putih
+        // Tanduk putih van
         van.get(0).getChildObject().get(10).getChildObject().add(new Sphere(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1810,35 +1752,8 @@ public class Main {
         van.get(0).getChildObject().get(10).getChildObject().get(0).rotateObject((float) Math.toRadians(270f), 0f, 0f, 1f);
         van.get(0).getChildObject().get(10).getChildObject().get(0).scaleObject(0.16f, 0.11f, 0.2f);
         van.get(0).getChildObject().get(10).getChildObject().get(0).translateObject(0f, 0.59f, 0f);
-//
-//        van.get(0).getChildObject().get(6).getChildObject().add(
-//                new Sphere(
-//                        Arrays.asList(
-//                                new ShaderProgram.ShaderModuleData(
-//                                        "resources/shaders/scene.vert"
-//                                        , GL_VERTEX_SHADER),
-//                                new ShaderProgram.ShaderModuleData(
-//                                        "resources/shaders/scene.frag"
-//                                        , GL_FRAGMENT_SHADER)
-//                        ),
-//                        new ArrayList<>(
-//                                List.of(
-//                                        new Vector3f(-0.5f, 0.5f, 0.0f),
-//                                        new Vector3f(-0.5f, -0.5f, 0.0f),
-//                                        new Vector3f(0.5f, -0.5f, 0.0f),
-//                                        new Vector3f(0.5f, 0.5f, 0.0f)
-//                                )
-//                        ),
-//                        new Vector4f(0f, 0f, 0.0f, 0.0f),
-//                        Arrays.asList(0.0f, 0.0f, 0.0f),
-//                        1.0f,
-//                        1.0f,
-//                        1.0f,3)
-//        );
-//        van.get(0).getChildObject().get(6).getChildObject().get(1).scaleObject(0.05f,0.05f,0.0001f);
-//        van.get(0).getChildObject().get(6).getChildObject().get(1).translateObject(-0.09f, 0.26f, 0.18f);
-//        van.get(0).getChildObject().get(6).getChildObject().get(1).rotateObject((float)Math.toRadians(180f), 0f,1f,0f);
-        // Mata Lingkaran hitam
+
+        // Mata Lingkaran hitam van
         van.get(0).getChildObject().get(10).getChildObject().add(new Circle(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1864,35 +1779,8 @@ public class Main {
                 )
         );
         van.get(0).getChildObject().get(10).getChildObject().get(1).translateObject(0.09f, 0.26f, -0.2f);
-        // Mata Lingkaran putih
-//        van.get(0).getChildObject().get(6).getChildObject().add(
-//                new Sphere(
-//                        Arrays.asList(
-//                                new ShaderProgram.ShaderModuleData(
-//                                        "resources/shaders/scene.vert"
-//                                        , GL_VERTEX_SHADER),
-//                                new ShaderProgram.ShaderModuleData(
-//                                        "resources/shaders/scene.frag"
-//                                        , GL_FRAGMENT_SHADER)
-//                        ),
-//                        new ArrayList<>(
-//                                List.of(
-//                                        new Vector3f(-0.5f, 0.5f, 0.0f),
-//                                        new Vector3f(-0.5f, -0.5f, 0.0f),
-//                                        new Vector3f(0.5f, -0.5f, 0.0f),
-//                                        new Vector3f(0.5f, 0.5f, 0.0f)
-//                                )
-//                        ),
-//                        new Vector4f(1f, 1f, 1.0f, 0.0f),
-//                        Arrays.asList(1.0f, 1.0f, 1.0f),
-//                        1.0f,
-//                        1.0f,
-//                        1.0f,3)
-//        );
-//        van.get(0).getChildObject().get(6).getChildObject().get(2).scaleObject(0.026f,0.026f,0.0001f);
-//        van.get(0).getChildObject().get(6).getChildObject().get(2).translateObject(-0.09f, 0.26f, 0.18f);
-//        van.get(0).getChildObject().get(6).getChildObject().get(2).rotateObject((float)Math.toRadians(180f), 0f,1f,0f);
-//
+
+        // Mata Lingkaran putih van
         van.get(0).getChildObject().get(10).getChildObject().add(new Circle(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1918,7 +1806,7 @@ public class Main {
         );
         van.get(0).getChildObject().get(10).getChildObject().get(2).translateObject(0.09f, 0.26f, -0.21f);
 
-        // Mata silang 1 (miring kiri)
+        // Mata silang 1 (miring kiri) van
         van.get(0).getChildObject().get(10).getChildObject().add(new Circle(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1945,7 +1833,7 @@ public class Main {
         van.get(0).getChildObject().get(10).getChildObject().get(3).rotateObject((float) Math.toRadians(45f), 0f, 0f, 1f);
         van.get(0).getChildObject().get(10).getChildObject().get(3).translateObject(-0.09f, 0.26f, -0.2f);
 
-        // Mata silang 2 (miring kanan)
+        // Mata silang 2 (miring kanan) van
         van.get(0).getChildObject().get(10).getChildObject().add(new Circle(
                         Arrays.asList(
                                 new ShaderProgram.ShaderModuleData(
@@ -1972,46 +1860,7 @@ public class Main {
         van.get(0).getChildObject().get(10).getChildObject().get(4).rotateObject((float) Math.toRadians(135f), 0f, 0f, 1f);
         van.get(0).getChildObject().get(10).getChildObject().get(4).translateObject(-0.09f, 0.26f, -0.2f);
 
-//        // Mulut van
-
-//        van.get(0).getChildObject().get(7).getChildObject().add(new Curve(
-//                        Arrays.asList(
-//                                new ShaderProgram.ShaderModuleData(
-//                                        "resources/shaders/scene.vert"
-//                                        , GL_VERTEX_SHADER),
-//                                new ShaderProgram.ShaderModuleData(
-//                                        "resources/shaders/scene.frag"
-//                                        , GL_FRAGMENT_SHADER)
-//                        ), new ArrayList<>(
-//                                List.of(
-//                                        new Vector3f(0.5f,0.5f,0f),
-//                                        new Vector3f(0.8f, 0.8f, 0.2f)
-//                                )
-//                        ),new Vector4f(1.0f,0.0f,0.0f,1.0f)
-//        ));
-//        van.get(0).getChildObject().get(10).getChildObject().add(new Circle(
-//                        Arrays.asList(
-//                                new ShaderProgram.ShaderModuleData(
-//                                        "resources/shaders/scene.vert"
-//                                        , GL_VERTEX_SHADER),
-//                                new ShaderProgram.ShaderModuleData(
-//                                        "resources/shaders/scene.frag"
-//                                        , GL_FRAGMENT_SHADER)
-//                        ),
-//                        new ArrayList<>(
-//                                List.of(
-//                                        new Vector3f(-0.5f, 0.5f, 0.0f),
-//                                        new Vector3f(-0.5f, -0.5f, 0.0f),
-//                                        new Vector3f(0.5f, -0.5f, 0.0f),
-//                                        new Vector3f(0.5f, 0.5f, 0.0f)
-//                                )
-//                        ),
-//                        new Vector4f(0.0f, 0.0f, 0.0f, 1.0f),
-//                        Arrays.asList(0.0f, 0.0f, 0.0f),
-//                        0.009f,
-//                        0.055f, 1
-//                )
-//        );
+        // Mulut van
         van.get(0).getChildObject().get(10).getChildObject().add(
                 new Curve(
                         Arrays.asList(
@@ -2027,21 +1876,15 @@ public class Main {
                                         new Vector3f(-0.047f, -0.1205f, 0),
                                         new Vector3f(-0.044f, -0.1205f, 0.f),
                                         new Vector3f(-0.041f, -0.1205f, 0.f)
-//                                        new Vector3f(-0.75f, -0.75f, 0.0f),
-//                                        new Vector3f(-0.5f, -0.5f, 0.0f),
-//                                        new Vector3f(-0.25f, -0.75f, 0.0f)
                                 )
                         ), new Vector4f(0.01176f, 0.01569f, 0.0f, 0.0f)
                 )
         );
         van.get(0).getChildObject().get(10).getChildObject().get(5).scaleObject(20.5f, 10.5f, 0.0001f);
-//        van.get(0).getChildObject().get(0).getChildObject().get(3).translateObject(0.462f, 1.205f, -0.14f);
-
         van.get(0).getChildObject().get(10).getChildObject().get(5).translateObject(0.9f,1.46f,-0.2f);
-//        van.get(0).getChildObject().get(10).getChildObject().get(5).rotateObject((float) Math.toRadians(90f), 0f, 0f, 1f);
-//        van.get(0).getChildObject().get(10).getChildObject().get(5).translateObject(0.0f, 0.19f, -0.2f);
 
-        //badan koya
+        // KOYA
+        // badan koya
         koya.add(new Sphere(
                 Arrays.asList(
                         new ShaderProgram.ShaderModuleData(
@@ -2059,7 +1902,6 @@ public class Main {
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
                 ), new Vector4f(0.407f, 0.876f, 0.970f, 1.0f),
-//                ), new Vector4f(0.930f, 0.0465f, 0.0465f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.0001f, 0.0001f, 0.1f, 36, 18, 3
         ));
@@ -2108,7 +1950,6 @@ public class Main {
                                 new Vector3f(0.5f, -0.5f, 0.0f),
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
-//                ), new Vector4f(0.520f, 0.0292f, 0.730f, 1.0f),
                 ), new Vector4f(0.396f, 0.00f, 0.880f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.05f, 0.1f, 0.01f, 72, 36, 0
@@ -2116,10 +1957,6 @@ public class Main {
         koya.get(0).getChildObject().get(0).getChildObject().get(0).rotateObject((float) Math.toRadians(90), 0.0f, 1.0f, 0.0f);
         koya.get(0).getChildObject().get(0).getChildObject().get(0).scaleObject(0.08f, 0.1f, 0.05f);
         koya.get(0).getChildObject().get(0).getChildObject().get(0).translateObject(0.0f, 0.0f, -0.14f);
-
-//        koya.get(0).getChildObject().get(0).getChildObject().get(0).translateObject(-0.5f, 0.0f, -0.5f);
-//        koya.get(0).getChildObject().get(0).getChildObject().get(0).rotateObject((float) Math.toRadians(180),0.0f,1.0f,0.0f);
-//        koya.get(0).getChildObject().get(0).getChildObject().get(0).scaleObject(0.4f, 0.6f, -0.28f);
 
         //mata kiri koya
         koya.get(0).getChildObject().get(0).getChildObject().add(new Sphere(
@@ -2143,11 +1980,7 @@ public class Main {
                 0.05f, 0.1f, 0.01f, 72, 36, 12
         ));
         koya.get(0).getChildObject().get(0).getChildObject().get(1).scaleObject(0.5f, 0.025f, 0.25f);
-
-//        koya.get(0).getChildObject().get(0).getChildObject().get(1).scaleObject(0.055f, 0.0075f, 0.001f);
-//        koya.get(0).getChildObject().get(0).getChildObject().get(1).scaleObject(0.06f, 0.007f, 0k.050f);
         koya.get(0).getChildObject().get(0).getChildObject().get(1).translateObject(-0.08f, -0.0f, -0.144f);
-//        koya.get(0).getChildObject().get(0).getChildObject().get(1).rotateObject(0.2f, 0.0f, 0.0f, 1.0f);
 
         //mata kanan koya
         koya.get(0).getChildObject().get(0).getChildObject().add(new Sphere(
@@ -2170,9 +2003,7 @@ public class Main {
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.05f, 0.1f, 0.01f, 72, 36, 12
         ));
-//        koya.get(0).getChildObject().get(0).getChildObject().get(2).scaleObject(0.06f, 0.015f, 0.00001f);
         koya.get(0).getChildObject().get(0).getChildObject().get(2).scaleObject(0.5f, 0.025f, 0.25f);
-//        koya.get(0).getChildObject().get(0).getChildObject().get(1).scaleObject(0.06f, 0.007f, 0.050f);
         koya.get(0).getChildObject().get(0).getChildObject().get(2).translateObject(0.08f, -0.0f, -0.144f);
 
         //mulut koya
@@ -2196,7 +2027,6 @@ public class Main {
                         )
                 ),
                 new Vector4f(0f, 0f, 0f, 1f)
-
         ));
         koya.get(0).getChildObject().get(0).getChildObject().get(3).scaleObject(10.5f, 10.5f, 0.0001f);
         koya.get(0).getChildObject().get(0).getChildObject().get(3).translateObject(0.462f, 1.205f, -0.14f);
@@ -2244,7 +2074,6 @@ public class Main {
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
                 ), new Vector4f(0.864f, 0.949f, 0.960f, 1.0f),
-//                ), new Vector4f(0.0f, 0.0f, 0.0f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 10
         ));
@@ -2273,9 +2102,6 @@ public class Main {
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 10
         ));
-//        koya.get(0).getChildObject().get(0).getChildObject().get(4).scaleObject(0.18f, 0.18f, 0.20f);
-//        koya.get(0).getChildObject().get(0).getChildObject().get(4).rotateObject(0.3f, 0.0f, 0.0f, 1.0f);
-//        koya.get(0).getChildObject().get(0).getChildObject().get(4).translateObject(-0.2f, 0.1f, 0.0f);
         koya.get(0).getChildObject().get(0).getChildObject().get(5).scaleObject(0.18f, 0.18f, 0.20f);
         koya.get(0).getChildObject().get(0).getChildObject().get(5).rotateObject(-1.52f, 0.0f, 0.0f, 1.0f);
         koya.get(0).getChildObject().get(0).getChildObject().get(5).translateObject(0.2f, 0.1f, 0.0f);
@@ -2298,7 +2124,6 @@ public class Main {
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
                 ), new Vector4f(0.864f, 0.949f, 0.960f, 1.0f),
-//                ), new Vector4f(0.0f, 0.0f, 0.0f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 10
         ));
@@ -2349,7 +2174,6 @@ public class Main {
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
                 ), new Vector4f(0.407f, 0.876f, 0.970f, 1.0f),
-//                ), new Vector4f(0.840f, 0.168f, 0.0336f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 4
         ));
@@ -2375,11 +2199,9 @@ public class Main {
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
                 ), new Vector4f(0.407f, 0.876f, 0.970f, 1.0f),
-//                ), new Vector4f(0.840f, 0.168f, 0.0336f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 4
         ));
-
         koya.get(0).getChildObject().get(3).scaleObject(0.06f, 0.15f, 0.05f);
         koya.get(0).getChildObject().get(3).rotateObject(0.4f, 0.0f, 0.0f, 1.0f);
         koya.get(0).getChildObject().get(3).translateObject(0.15f, -0.2f, 0.0f);
@@ -2431,8 +2253,6 @@ public class Main {
         ));
         koya.get(0).getChildObject().get(5).scaleObject(0.125f, 0.2f, 0.125f);
         koya.get(0).getChildObject().get(5).translateObject(0.056f, -0.29f, 0.0f);
-//        koya.get(0).getChildObject().get(5).scaleObject(0.125f, 0.2f, 0.125f);
-//        koya.get(0).getChildObject().get(5).translateObject(0.5f, -0.29f, 0.0f);
 
         //poros tangan kiri koya
         koya.get(0).getChildObject().add(new Sphere(
@@ -2451,7 +2271,6 @@ public class Main {
                                 new Vector3f(0.5f, -0.5f, 0.0f),
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
-//                ), new Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
                 ), new Vector4f(0.407f, 0.876f, 0.970f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 8
@@ -2476,12 +2295,10 @@ public class Main {
                                 new Vector3f(0.5f, -0.5f, 0.0f),
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
-//                ), new Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
                 ), new Vector4f(0.407f, 0.876f, 0.970f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 8
         ));
-
         koya.get(0).getChildObject().get(7).scaleObject(0.03f, 0.03f, 0.03f);
         koya.get(0).getChildObject().get(7).translateObject(0.10f, -0.14f, 0.0f);
 
@@ -2502,15 +2319,12 @@ public class Main {
                                 new Vector3f(0.5f, -0.5f, 0.0f),
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
-//                ), new Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
-//                ), new Vector4f(0.840f, 0.215f, 0.0252f, 1.0f),
                 ), new Vector4f(0.407f, 0.876f, 0.970f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 4
         ));
         koya.get(0).getChildObject().get(8).scaleObject(0.03f, 0.03f, 0.03f);
         koya.get(0).getChildObject().get(8).translateObject(-0.06f, -0.25f, 0.0f);
-//        koya.get(0).getChildObject().get(8).translateObject(-0.0f, 0.1f, 0.9f);
 
         //poros kaki kanan koya
         koya.get(0).getChildObject().add(new Sphere(
@@ -2529,8 +2343,6 @@ public class Main {
                                 new Vector3f(0.5f, -0.5f, 0.0f),
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
-//                ), new Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
-//                ), new Vector4f(0.845f, 0.559f, 0.860f, 1.0f),
                 ), new Vector4f(0.407f, 0.876f, 0.970f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 4
@@ -2556,7 +2368,6 @@ public class Main {
                                 new Vector3f(0.5f, -0.5f, 0.0f),
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
-//                ), new Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
                 ), new Vector4f(0.407f, 0.876f, 0.970f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 12
@@ -2582,16 +2393,11 @@ public class Main {
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
                 ), new Vector4f(0.0f, 0.0f, 0.0f, 0.0f),
-//                ), new Vector4f(0.407f, 0.876f, 0.970f, 1.0f),
-//                ), new Vector4f(0.0252f, 0.840f, 0.365f, 1.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 4
         ));
         koya.get(0).getChildObject().get(11).scaleObject(0.006f, 0.006f, 0.0001f);
         koya.get(0).getChildObject().get(11).translateObject(-0.09f, -0.0f, -0.144f);
-
-//        koya.get(0).scaleObject(1.2f,1.2f,1.2f);
-//        koya.get(0).getChildObject().get(0).getChildObject().get(1).translateObject(-0.08f, -0.0f, -0.144f);
 
         //poros mata kanan koya
         koya.get(0).getChildObject().add(new Sphere(
@@ -2610,8 +2416,6 @@ public class Main {
                                 new Vector3f(0.5f, -0.5f, 0.0f),
                                 new Vector3f(0.5f, 0.5f, 0.0f)
                         )
-//                ), new Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
-//                ), new Vector4f(0.407f, 0.876f, 0.970f, 1.0f),
                 ), new Vector4f(0.0f, 0.0f, 0.0f, 0.0f),
                 Arrays.asList(0.0f, 0.0f, 0.0f),
                 0.01f, 0.01f, 0.01f, 72, 36, 4
@@ -2619,24 +2423,20 @@ public class Main {
         koya.get(0).getChildObject().get(12).scaleObject(0.006f, 0.006f, 0.0001f);
         koya.get(0).getChildObject().get(12).translateObject(0.09f, -0.0f, -0.144f);
 
-
+        // pengaturan ukuran van chimmy koya untuk tampilan akhir
         koya.get(0).scaleObject(1.2f, 1.2f, 1.2f);
         van.get(0).scaleObject(1.2f, 1.2f, 1.2f);
-
         chimmy.get(0).scaleObject(0.8f, 0.8f, 0.8f);
 
-        // peletakkan van chimmy koya
-//        van.get(0).translateObject(0.5f,0.25f,0.0f);
-
+        // peletakkan van chimmy koya untuk tampilan akhir
         van.get(0).translateObject(0.0f, 0.25f, 0.0f);
         chimmy.get(0).translateObject(0.4f, -0.55f, 0.0f);
         koya.get(0).translateObject(-0.4f, -0.3f, 0.0f);
-
     }
 
-
     public void input() {
-        // geser kiri van
+
+        // geser depan van
         if (window.isKeyPressed(GLFW_KEY_1)) {
             Vector3f kaki_kiri = van.get(0).getChildObject().get(5).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             Vector3f kaki_kanan = van.get(0).getChildObject().get(7).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
@@ -2656,7 +2456,6 @@ public class Main {
                 van.get(0).translateObject(badan_van.x, badan_van.y, 0f);
 
                 geserVan += 1;
-
             }
             else if (geserVan < 20){
                 van.get(0).getChildObject().get(6).translateObject(-kaki_kiri.x, -kaki_kiri.y, 0f);
@@ -2670,12 +2469,15 @@ public class Main {
                 van.get(0).translateObject(-badan_van.x, -badan_van.y, 0f);
                 van.get(0).translateObject(-0.005f, -0.005f, 0f);
                 van.get(0).translateObject(badan_van.x, badan_van.y, 0f);
+
                 geserVan += 1;
             }
             if (geserVan == 20){
                 geserVan = 0;
             }
         }
+
+        // geser belakang van
         if (window.isKeyPressed(GLFW_KEY_2)) {
             Vector3f kaki_kiri = van.get(0).getChildObject().get(5).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             Vector3f kaki_kanan = van.get(0).getChildObject().get(7).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
@@ -2695,7 +2497,6 @@ public class Main {
                 van.get(0).translateObject(badan_van.x, badan_van.y, 0f);
 
                 geserVan += 1;
-
             }
             else if (geserVan < 20){
                 van.get(0).getChildObject().get(6).translateObject(-kaki_kiri.x, -kaki_kiri.y, 0f);
@@ -2709,6 +2510,7 @@ public class Main {
                 van.get(0).translateObject(-badan_van.x, -badan_van.y, 0f);
                 van.get(0).translateObject(0.005f, 0.005f, 0f);
                 van.get(0).translateObject(badan_van.x, badan_van.y, 0f);
+
                 geserVan += 1;
             }
             if (geserVan == 20){
@@ -2716,7 +2518,7 @@ public class Main {
             }
         }
 
-        // geser kiri chimmy
+        // geser depan chimmy
         if (window.isKeyPressed(GLFW_KEY_3)) {
             Vector3f kaki_kiri = chimmy.get(0).getChildObject().get(4).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             Vector3f kaki_kanan = chimmy.get(0).getChildObject().get(3).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
@@ -2738,7 +2540,6 @@ public class Main {
                 chimmy.get(0).translateObject(badan_chimmy.x, badan_chimmy.y, 0f);
 
                 geserChimmy += 1;
-
             }
             else if (geserChimmy < 20){
                 for (Object child : chimmy.get(0).getChildObject().get(4).getChildObject()) {
@@ -2761,7 +2562,8 @@ public class Main {
                 geserChimmy = 0;
             }
         }
-        // geser kanan chimmy
+
+        // geser belakang chimmy
         if (window.isKeyPressed(GLFW_KEY_4)) {
             Vector3f kaki_kiri = chimmy.get(0).getChildObject().get(4).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             Vector3f kaki_kanan = chimmy.get(0).getChildObject().get(3).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
@@ -2783,7 +2585,6 @@ public class Main {
                 chimmy.get(0).translateObject(badan_chimmy.x, badan_chimmy.y, 0f);
 
                 geserChimmy += 1;
-
             }
             else if (geserChimmy < 20){
                 for (Object child : chimmy.get(0).getChildObject().get(4).getChildObject()) {
@@ -2807,7 +2608,8 @@ public class Main {
                 geserChimmy = 0;
             }
         }
-        // geser kiri koya
+
+        // geser depan koya
         if (window.isKeyPressed(GLFW_KEY_5)) {
             Vector3f kaki_kiri = koya.get(0).getChildObject().get(8).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             Vector3f kaki_kanan = koya.get(0).getChildObject().get(9).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
@@ -2847,7 +2649,8 @@ public class Main {
                 geserKoya = 0;
             }
         }
-        // geser kanan koya
+
+        // geser belakang koya
         if (window.isKeyPressed(GLFW_KEY_6)) {
             Vector3f kaki_kiri = koya.get(0).getChildObject().get(8).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             Vector3f kaki_kanan = koya.get(0).getChildObject().get(9).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
@@ -2887,6 +2690,7 @@ public class Main {
                 geserKoya = 0;
             }
         }
+
         // semuaaaaaaaaaaaa geser ke kiriiii
         if (window.isKeyPressed(GLFW_KEY_7)) {
             Vector3f kaki_kiri_koya = koya.get(0).getChildObject().get(8).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
@@ -2899,9 +2703,7 @@ public class Main {
             Vector3f kaki_kanan_van = van.get(0).getChildObject().get(7).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             Vector3f badan_van = van.get(0).model.transformPosition(new Vector3f(0.0f,0.0f,0.0f));
 
-
             if (geserSemua < 10){
-
                 for (Object child : chimmy.get(0).getChildObject().get(4).getChildObject()) {
                     child.translateObject(-kaki_kiri_chimmy.x, -kaki_kiri_chimmy.y, 0f);
                     child.rotateObject((float) Math.toRadians(1.5f), 0f, 0f, 1f);
@@ -2917,7 +2719,6 @@ public class Main {
                 chimmy.get(0).translateObject(badan_chimmy.x, badan_chimmy.y, 0f);
 
 
-
                 koya.get(0).getChildObject().get(4).translateObject(-kaki_kiri_koya.x, -kaki_kiri_koya.y, 0f);
                 koya.get(0).getChildObject().get(4).rotateObject((float) Math.toRadians(0.5f), 0f, 0f, 1f);
                 koya.get(0).getChildObject().get(4).translateObject(kaki_kiri_koya.x, kaki_kiri_koya.y, 0f);
@@ -2930,6 +2731,7 @@ public class Main {
                 koya.get(0).translateObject(-0.005f, -0.005f, 0f);
                 koya.get(0).translateObject(badan_koya.x, badan_koya.y, 0f);
 
+
                 van.get(0).getChildObject().get(6).translateObject(-kaki_kiri_van.x, -kaki_kiri_van.y, 0f);
                 van.get(0).getChildObject().get(6).rotateObject((float) Math.toRadians(2f), 0f, 0f, 1f);
                 van.get(0).getChildObject().get(6).translateObject(kaki_kiri_van.x, kaki_kiri_van.y, 0f);
@@ -2941,6 +2743,7 @@ public class Main {
                 van.get(0).translateObject(-badan_van.x, -badan_van.y, 0f);
                 van.get(0).translateObject(-0.005f, -0.005f, 0f);
                 van.get(0).translateObject(badan_van.x, badan_van.y, 0f);
+
                 geserSemua += 1;
             }
             else if (geserSemua < 20){
@@ -2972,6 +2775,7 @@ public class Main {
                 koya.get(0).translateObject(-0.005f, -0.005f, 0f);
                 koya.get(0).translateObject(badan_koya.x, badan_koya.y, 0f);
 
+
                 van.get(0).getChildObject().get(6).translateObject(-kaki_kiri_van.x, -kaki_kiri_van.y, 0f);
                 van.get(0).getChildObject().get(6).rotateObject((float) Math.toRadians(2f), 0f, 0f, -1f);
                 van.get(0).getChildObject().get(6).translateObject(kaki_kiri_van.x, kaki_kiri_van.y, 0f);
@@ -2983,12 +2787,14 @@ public class Main {
                 van.get(0).translateObject(-badan_van.x, -badan_van.y, 0f);
                 van.get(0).translateObject(-0.005f, -0.005f, 0f);
                 van.get(0).translateObject(badan_van.x, badan_van.y, 0f);
+
                 geserSemua += 1;
             }
             if (geserSemua == 20){
                 geserSemua = 0;
             }
         }
+
         // semuaaaaaaaaaaaa geser ke kanan
         if (window.isKeyPressed(GLFW_KEY_8)) {
             Vector3f kaki_kiri_koya = koya.get(0).getChildObject().get(8).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
@@ -3001,9 +2807,7 @@ public class Main {
             Vector3f kaki_kanan_van = van.get(0).getChildObject().get(7).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             Vector3f badan_van = van.get(0).model.transformPosition(new Vector3f(0.0f,0.0f,0.0f));
 
-
             if (geserSemua < 10){
-
                 for (Object child : chimmy.get(0).getChildObject().get(4).getChildObject()) {
                     child.translateObject(-kaki_kiri_chimmy.x, -kaki_kiri_chimmy.y, 0f);
                     child.rotateObject((float) Math.toRadians(1.5f), 0f, 0f, 1f);
@@ -3031,6 +2835,7 @@ public class Main {
                 koya.get(0).translateObject(0.005f, 0.005f, 0f);
                 koya.get(0).translateObject(badan_koya.x, badan_koya.y, 0f);
 
+
                 van.get(0).getChildObject().get(6).translateObject(-kaki_kiri_van.x, -kaki_kiri_van.y, 0f);
                 van.get(0).getChildObject().get(6).rotateObject((float) Math.toRadians(2f), 0f, 0f, 1f);
                 van.get(0).getChildObject().get(6).translateObject(kaki_kiri_van.x, kaki_kiri_van.y, 0f);
@@ -3042,6 +2847,7 @@ public class Main {
                 van.get(0).translateObject(-badan_van.x, -badan_van.y, 0f);
                 van.get(0).translateObject(0.005f, 0.005f, 0f);
                 van.get(0).translateObject(badan_van.x, badan_van.y, 0f);
+
                 geserSemua += 1;
             }
             else if (geserSemua < 20){
@@ -3072,6 +2878,7 @@ public class Main {
                 koya.get(0).translateObject(0.005f, 0.005f, 0f);
                 koya.get(0).translateObject(badan_koya.x, badan_koya.y, 0f);
 
+
                 van.get(0).getChildObject().get(6).translateObject(-kaki_kiri_van.x, -kaki_kiri_van.y, 0f);
                 van.get(0).getChildObject().get(6).rotateObject((float) Math.toRadians(2f), 0f, 0f, -1f);
                 van.get(0).getChildObject().get(6).translateObject(kaki_kiri_van.x, kaki_kiri_van.y, 0f);
@@ -3091,11 +2898,9 @@ public class Main {
             }
         }
 
-
-        // tangan muter
+        // tangan semua karakter mutar
         if (window.isKeyPressed(GLFW_KEY_Q)) {
             Vector3f kanan = chimmy.get(0).getChildObject().get(1).model.transformPosition(new Vector3f(0.0f, 0.0f, 0f));
-
             for (Object child : chimmy.get(0).getChildObject().get(1).getChildObject()) {
                 child.translateObject(-kanan.x, -kanan.y, 0f);
                 child.rotateObject((float) Math.toRadians(15f), 1f, 0f, 0f);
@@ -3103,12 +2908,12 @@ public class Main {
             }
 
             Vector3f kiri = chimmy.get(0).getChildObject().get(2).model.transformPosition(new Vector3f(0.0f, 0.0f, 0f));
-
             for (Object child : chimmy.get(0).getChildObject().get(2).getChildObject()) {
                 child.translateObject(-kiri.x, -kiri.y, 0f);
                 child.rotateObject((float) Math.toRadians(15f), 1f, 0f, 0f);
                 child.translateObject(kiri.x, kiri.y, 0f);
             }
+
             Vector3f kiri2 = koya.get(0).getChildObject().get(6).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             koya.get(0).getChildObject().get(2).translateObject(-kiri2.x, -kiri2.y, 0f);
             koya.get(0).getChildObject().get(2).rotateObject((float) Math.toRadians(15f), 1f, 0f, 0f);
@@ -3119,6 +2924,7 @@ public class Main {
             koya.get(0).getChildObject().get(3).rotateObject((float) Math.toRadians(15f), 1f, 0f, 0f);
             koya.get(0).getChildObject().get(3).translateObject(kanan2.x, kanan2.y, 0f);
 
+
             Vector3f kiri3 = van.get(0).getChildObject().get(1).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             van.get(0).getChildObject().get(2).translateObject(-kiri3.x, -kiri3.y, 0f);
             van.get(0).getChildObject().get(2).rotateObject((float) Math.toRadians(15f), 1f, 0f, 0f);
@@ -3128,18 +2934,18 @@ public class Main {
             van.get(0).getChildObject().get(4).translateObject(-kanan3.x, -kanan3.y, 0f);
             van.get(0).getChildObject().get(4).rotateObject((float) Math.toRadians(15f), 1f, 0f, 0f);
             van.get(0).getChildObject().get(4).translateObject(kanan3.x, kanan3.y, 0f);
-
-
         }
 
-        // jalan di tempat
+        // jalan di tempat semua karakter
         if (window.isKeyPressed(GLFW_KEY_W)) {
+            // chimmy
             Vector3f kiri = chimmy.get(0).getChildObject().get(4).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             for (Object child : chimmy.get(0).getChildObject().get(4).getChildObject()) {
                 child.translateObject(-kiri.x, -kiri.y, 0f);
                 child.rotateObject(-(float) Math.toRadians(arah * 1f), 1.0f, 0.0f, 0f);
                 child.translateObject(kiri.x, kiri.y, 0f);
             }
+
             Vector3f kanan = chimmy.get(0).getChildObject().get(3).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             for (Object child : chimmy.get(0).getChildObject().get(3).getChildObject()) {
                 child.translateObject(-kanan.x, -kanan.y, 0f);
@@ -3159,7 +2965,7 @@ public class Main {
                 }
             }
 
-            //koya
+            // koya
             Vector3f kiri2 = koya.get(0).getChildObject().get(8).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             koya.get(0).getChildObject().get(4).translateObject(-kiri2.x, -kiri2.y, 0f);
             koya.get(0).getChildObject().get(4).rotateObject((float) Math.toRadians(arah * 1f), 1.0f, 0.0f, 0f);
@@ -3180,12 +2986,14 @@ public class Main {
                 }
             }
 
+            // van
             Vector3f kiri3 = van.get(0).getChildObject().get(5).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             for (Object child : van.get(0).getChildObject().get(6).getChildObject()) {
                 child.translateObject(-kiri3.x, -kiri3.y, 0f);
                 child.rotateObject(-(float) Math.toRadians(arah * 1f), 1.0f, 0.0f, 0f);
                 child.translateObject(kiri3.x, kiri3.y, 0f);
             }
+
             Vector3f kanan3 = van.get(0).getChildObject().get(7).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             for (Object child : van.get(0).getChildObject().get(8).getChildObject()) {
                 child.translateObject(-kanan3.x, -kanan3.y, 0f);
@@ -3206,7 +3014,7 @@ public class Main {
             }
         }
 
-        // Geleng kepala
+        // Geleng kepala semua karakter
         if (window.isKeyPressed(GLFW_KEY_E)) {
             //van
             Vector3f tempCenterPoint = van.get(0).getChildObject().get(9).updateCenterPoint();
@@ -3214,7 +3022,6 @@ public class Main {
                     tempCenterPoint.z * -1);
             van.get(0).getChildObject().get(10).translateObject(tempCenterPoint.x * -1, tempCenterPoint.y * -1,
                     tempCenterPoint.z * -1);
-
 
             van.get(0).getChildObject().get(9).rotateObject((float) Math.toRadians(0.5f * arah), 0f, 1.0f, 0f);
             van.get(0).getChildObject().get(10).rotateObject((float) Math.toRadians(0.5f * arah), 0f, 1.0f, 0f);
@@ -3228,6 +3035,7 @@ public class Main {
                     tempCenterPoint.z);
             van.get(0).getChildObject().get(10).translateObject(tempCenterPoint.x, tempCenterPoint.y,
                     tempCenterPoint.z);
+
 
             //koya
             Vector3f tempCenterPoint2 = koya.get(0).getChildObject().get(0).updateCenterPoint();
@@ -3271,6 +3079,7 @@ public class Main {
                     tempCenterPoint3.z);
         }
 
+        // putar 360 derajat semua
         if (window.isKeyPressed(GLFW_KEY_R)) {
             Vector3f badan_chimmy = chimmy.get(0).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             for (Object child : chimmy) {
@@ -3278,6 +3087,7 @@ public class Main {
                 child.rotateObject((float) Math.toRadians(4f), 0f, 1f, 0f);
                 child.translateObject(badan_chimmy.x, badan_chimmy.y, 0f);
             }
+
             Vector3f badan_van = van.get(0).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             for (Object child : van) {
                 child.translateObject(-badan_van.x, -badan_van.y, 0f);
@@ -3291,10 +3101,9 @@ public class Main {
                 child.rotateObject((float) Math.toRadians(4f), 0f, 1f, 0f);
                 child.translateObject(badan_koya.x, badan_koya.y, 0f);
             }
-
         }
 
-        // Angguk kepala
+        // Angguk kepala semua karakter
         if (window.isKeyPressed(GLFW_KEY_T)) {
             //van
             Vector3f tempCenterPoint = van.get(0).getChildObject().get(5).updateCenterPoint();
@@ -3302,7 +3111,6 @@ public class Main {
                     tempCenterPoint.z * -1);
             van.get(0).getChildObject().get(10).translateObject(tempCenterPoint.x * -1, tempCenterPoint.y * -1,
                     tempCenterPoint.z * -1);
-
 
             van.get(0).getChildObject().get(9).rotateObject((float) Math.toRadians(0.5f * arah), -1.0f, 0f, 0f);
             van.get(0).getChildObject().get(10).rotateObject((float) Math.toRadians(0.5f * arah), -1.0f, 0f, 0f);
@@ -3316,6 +3124,7 @@ public class Main {
                     tempCenterPoint.z);
             van.get(0).getChildObject().get(10).translateObject(tempCenterPoint.x, tempCenterPoint.y,
                     tempCenterPoint.z);
+
 
             //koya
             Vector3f tempCenterPoint2 = koya.get(0).getChildObject().get(0).updateCenterPoint();
@@ -3343,6 +3152,7 @@ public class Main {
             koya.get(0).getChildObject().get(12).translateObject(tempCenterPoint2.x, tempCenterPoint2.y,
                     tempCenterPoint2.z);
 
+
             //chimmy
             Vector3f tempCenterPoint3 = chimmy.get(0).getChildObject().get(0).updateCenterPoint();
             chimmy.get(0).getChildObject().get(0).translateObject(tempCenterPoint3.x * -1, tempCenterPoint3.y * -1,
@@ -3359,8 +3169,7 @@ public class Main {
                     tempCenterPoint3.z);
         }
 
-
-        //kaki kiri naik
+        //kaki kiri naik koya
         if (window.isKeyPressed(GLFW_KEY_A)) {
             if (pressKakiKiriNaik) {
                 pressKakiKananNaik = false;
@@ -3370,9 +3179,6 @@ public class Main {
                 if (degKakiKiriNaik >= -0.4f) {
                     Vector3f kakiKiri = koya.get(0).getChildObject().get(8).model.transformPosition(new Vector3f(0, 0, 0));
                     degKakiKiriNaik -= 0.1f;
-//                    koya.get(0).getChildObject().get(4).translateObject(0.056f, 0.25f, 0.0f);
-//                    koya.get(0).getChildObject().get(4).rotateObject(-degKakiKiriNaik, 1.0f, 0.0f, 0.0f);
-//                    koya.get(0).getChildObject().get(4).translateObject(-0.056f, -0.25f, 0.0f);
                     koya.get(0).getChildObject().get(4).translateObject(-kakiKiri.x, -kakiKiri.y, 0.0f);
                     koya.get(0).getChildObject().get(4).rotateObject(-degKakiKiriNaik, 1.0f, 0.0f, 0.0f);
                     koya.get(0).getChildObject().get(4).translateObject(kakiKiri.x, kakiKiri.y, 0.0f);
@@ -3385,8 +3191,6 @@ public class Main {
                     if (kakiKananNaik && kakiKiriNaik) {
                         //buat duduk
                         koya.get(0).translateObject(0.0f, -0.05f, 0.0f);
-//                        Vector3f kakiKiri = koya.get(0).getChildObject().get(8).model.transformPosition(new Vector3f(0,0,0));
-//                        koya.get(0).translateObject(kakiKiri.x, kakiKiri.y - 0.05f, 0.0f);
 
                         //mulut datar
                         koya.get(0).getChildObject().get(0).getChildObject().get(3).changeVertices(0, -0.047f, -0.1214f);
@@ -3423,7 +3227,7 @@ public class Main {
             }
         }
 
-        //kaki kiri turun
+        //kaki kiri turun koya
         if (window.isKeyPressed(GLFW_KEY_S)) {
             System.out.println(pressKakiKiriTurun);
             if (pressKakiKiriTurun) {
@@ -3440,9 +3244,6 @@ public class Main {
                             pressKakiKananNaik = true;
                             pressKakiKananTurun = true;
                             pressKakiKiriNaik = true;
-                            //buat berdiri
-//                            Vector3f kakiKiri = koya.get(0).getChildObject().get(8).model.transformPosition(new Vector3f(0,0,0));
-//                            koya.get(0).translateObject(kakiKiri.x, kakiKiri.y + 0.05f, 0.0f);
                             koya.get(0).translateObject(0.0f, 0.05f, 0.0f);
                         }
                     }
@@ -3459,7 +3260,7 @@ public class Main {
             }
         }
 
-        //kaki kanan naik
+        //kaki kanan naik koya
         if (window.isKeyPressed(GLFW_KEY_D)) {
             if (pressKakiKananNaik) {
                 kakiMulai = false;
@@ -3484,8 +3285,6 @@ public class Main {
                     if (kakiKananNaik && kakiKiriNaik) {
                         //buat duduk
                         koya.get(0).translateObject(0.0f, -0.05f, 0.0f);
-//                        Vector3f kakiKanan = koya.get(0).getChildObject().get(9).model.transformPosition(new Vector3f(0,0,0));
-//                        koya.get(0).translateObject(kakiKanan.x, kakiKanan.y - 0.05f, 0.0f);
 
                         //mulut datar
                         if (mulutHappy) {
@@ -3503,13 +3302,11 @@ public class Main {
                         if (tutupMata) {
                             Vector3f mataKiri = koya.get(0).getChildObject().get(11).model.transformPosition(new Vector3f(0, 0, 0));
                             koya.get(0).getChildObject().get(0).getChildObject().get(1).translateObject(-mataKiri.x, -mataKiri.y, 0.0f);
-//                            koya.get(0).getChildObject().get(0).getChildObject().get(1).scaleObject(1.0f, 1.2f, 1.00f);
                             koya.get(0).getChildObject().get(0).getChildObject().get(1).scaleObject(1.0f, 15f, 1.00f);
                             koya.get(0).getChildObject().get(0).getChildObject().get(1).translateObject(mataKiri.x, mataKiri.y, -0.0f);
 
                             Vector3f mataKanan = koya.get(0).getChildObject().get(11).model.transformPosition(new Vector3f(0, 0, 0));
                             koya.get(0).getChildObject().get(0).getChildObject().get(2).translateObject(-mataKanan.x, -mataKanan.y, 0.0f);
-//                            koya.get(0).getChildObject().get(0).getChildObject().get(2).scaleObject(1.0f, 1.2f, 1.00f);
                             koya.get(0).getChildObject().get(0).getChildObject().get(2).scaleObject(1.0f, 15f, 1.00f);
                             koya.get(0).getChildObject().get(0).getChildObject().get(2).translateObject(mataKanan.x, mataKanan.y, -0.0f);
                             tutupMata = false;
@@ -3526,8 +3323,7 @@ public class Main {
             }
         }
 
-
-        //kaki kanan turun
+        //kaki kanan turun koya
         if (window.isKeyPressed(GLFW_KEY_F)) {
             if (pressKakiKananTurun) {
                 pressKakiKananNaik = false;
@@ -3545,8 +3341,6 @@ public class Main {
                             pressKakiKiriNaik = true;
                             pressKakiKiriTurun = true;
                             //buat berdiri
-//                            Vector3f kakiKanan = koya.get(0).getChildObject().get(9).model.transformPosition(new Vector3f(0,0,0));
-//                            koya.get(0).translateObject(kakiKanan.x, kakiKanan.y + 0.05f, 0.0f);
                             koya.get(0).translateObject(0.0f, 0.05f, 0.0f);
                         }
                     }
@@ -3562,9 +3356,9 @@ public class Main {
                 }
             }
         }
-        //Mata membesar
+
+        //Mata membesar koya
         if (window.isKeyPressed(GLFW_KEY_G)) {
-//            besarMataTutup = 0.9f;
             if (tutupMata) {
                 if (!turun) {
                     if (besarMataBuka <= 1.5f) {
@@ -3602,7 +3396,7 @@ public class Main {
             }
         }
 
-        //Mata mengecil
+        //Mata mengecil koya
         if (window.isKeyPressed(GLFW_KEY_H)) {
             if (!tutupMata) {
                 if (!turun) {
@@ -3643,11 +3437,10 @@ public class Main {
                         besarMataBuka = 0.0f;
                     }
                 }
-
             }
         }
 
-        //mulut melengkung (happy)
+        //mulut melengkung (happy) koya
         if (window.isKeyPressed(GLFW_KEY_V)) {
             if (!mulutHappy) {
                 koya.get(0).getChildObject().get(0).getChildObject().get(3).changeVertices(0, -0.047f, -0.1205f);
@@ -3663,7 +3456,7 @@ public class Main {
             }
         }
 
-        //mulut datar
+        //mulut datar koya
         if (window.isKeyPressed(GLFW_KEY_B)) {
             if (mulutHappy) {
                 koya.get(0).getChildObject().get(0).getChildObject().get(3).changeVertices(0, -0.047f, -0.1214f);
@@ -3679,6 +3472,7 @@ public class Main {
             }
         }
 
+        // chimmmy pose
         if (window.isKeyPressed(GLFW_KEY_Z)) {
             if (belomZ < 10) {
                 Vector3f kaki_kiri = chimmy.get(0).getChildObject().get(4).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
@@ -3714,6 +3508,8 @@ public class Main {
                 belomZ += 1;
             }
         }
+
+        // chimmmy normal
         if (window.isKeyPressed(GLFW_KEY_X)) {
             if (belomZ > 0) {
                 Vector3f kaki_kiri = chimmy.get(0).getChildObject().get(4).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
@@ -3749,6 +3545,8 @@ public class Main {
                 belomZ -= 1;
             }
         }
+
+        // telinga chimmy terbang
         if (window.isKeyPressed(GLFW_KEY_C)) {
             Vector3f telinga_kiri = chimmy.get(0).getChildObject().get(0).getChildObject().get(8).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             Vector3f telinga_kanan = chimmy.get(0).getChildObject().get(0).getChildObject().get(7).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
@@ -3783,7 +3581,8 @@ public class Main {
                 }
             }
         }
-        //mulut melengkung (happy)
+
+        //mulut melengkung (happy) koya
         if (window.isKeyPressed(GLFW_KEY_V)) {
             if (!mulutHappy) {
                 koya.get(0).getChildObject().get(0).getChildObject().get(3).changeVertices(0, -0.047f, -0.1205f);
@@ -3799,7 +3598,7 @@ public class Main {
             }
         }
 
-        //mulut datar
+        //mulut datar koya
         if (window.isKeyPressed(GLFW_KEY_B)) {
             if (mulutHappy) {
                 koya.get(0).getChildObject().get(0).getChildObject().get(3).changeVertices(0, -0.047f, -0.1214f);
@@ -3815,18 +3614,13 @@ public class Main {
             }
         }
 
-        // van
-
-
-        // Miring kepala
+        // Miring kepala van
         if (window.isKeyPressed(GLFW_KEY_N)) {
-//            van.get(0).rotateObject(((float) Math.toRadians(0.5f)), 0.0f, 1.0f, 0.0f);
             Vector3f tempCenterPoint = van.get(0).getChildObject().get(5).updateCenterPoint();
             van.get(0).getChildObject().get(9).translateObject(tempCenterPoint.x * -1, tempCenterPoint.y * -1,
                     tempCenterPoint.z * -1);
             van.get(0).getChildObject().get(10).translateObject(tempCenterPoint.x * -1, tempCenterPoint.y * -1,
                     tempCenterPoint.z * -1);
-
 
             van.get(0).getChildObject().get(9).rotateObject((float) Math.toRadians(0.5f * arah), 0f, 0f, 1.0f);
             van.get(0).getChildObject().get(10).rotateObject((float) Math.toRadians(0.5f * arah), 0f, 0f, 1.0f);
@@ -3841,6 +3635,7 @@ public class Main {
             van.get(0).getChildObject().get(10).translateObject(tempCenterPoint.x, tempCenterPoint.y,
                     tempCenterPoint.z);
         }
+
         // Terbang INI CUMA VAN
         if (window.isKeyPressed(GLFW_KEY_M)) {
             Vector3f tempCenterPoint1 = van.get(0).getChildObject().get(2).updateCenterPoint();
@@ -3879,13 +3674,12 @@ public class Main {
                 Vector3f tempCenterPoint = child.updateCenterPoint();
                 child.translateObject(tempCenterPoint.x * -1, tempCenterPoint.y * -1,
                         tempCenterPoint.z * -1);
-//                child.rotateObject((float) Math.toRadians(0.5f), 0.0f, 0.0f, 1.0f);
                 child.translateObject(tempCenterPoint.x, tempCenterPoint.y,
                         tempCenterPoint.z);
             }
         }
 
-
+        // ini ke bawah cuma untuk rotasi terhadap sumbu x,y,z positif dan negatif
         if (window.isKeyPressed(GLFW_KEY_J)) {
             Vector3f badan_chimmy = chimmy.get(0).model.transformPosition(new Vector3f(0.0f, 0.0f, 0.0f));
             for (Object child : chimmy) {
@@ -4006,8 +3800,6 @@ public class Main {
                 child.translateObject(badan_koya.x, badan_koya.y, 0f);
             }
         }
-
-
     }
 
     public void loop(){
@@ -4017,54 +3809,15 @@ public class Main {
                     , 0.0f);
             GL.createCapabilities();
             input();
-            //code
-            for (Object bg: background) {
-//                if (!(bg instanceof Sphere)){
-//                    bg.drawCurve();
-//                } else{
-                bg.draw();
-//                }
 
+            for (Object bg: background) {
+                bg.draw();
                 for (Object child: bg.getChildObject()) {
                     child.draw();
-
                 }
             }
-//            for(Object object: chimmy){
-//                if (!(object instanceof Sphere)){
-//                    object.draw();
-//                }
-//                else {
-//                    object.drawCurve();
-//                }
-//                for (Object child: object.getChildObject()) {
-//                    if (!(child instanceof Sphere)){
-//                        child.draw();
-//                    }
-//                    else {
-//                        child.drawCurve();
-//                    }
-//                    for (Object grandchild: child.getChildObject()) {
-//                        if (!(grandchild instanceof Sphere)){
-//                            grandchild.draw();
-//                        }
-//                        else {
-//                            grandchild.drawCurve();
-//                        }
-//                        for (Object greatgrandchild: grandchild.getChildObject()) {
-//                            if (!(greatgrandchild instanceof Sphere)){
-//                                greatgrandchild.draw();
-//                            }
-//                            else {
-//                                greatgrandchild.drawCurve();
-//                            }
-//
-//                        }
-//                    }
-//                }
-//
-//            }
-            for (Object object : chimmy) {
+
+            for (Object object: chimmy) {
                 object.draw();
                 for (Object child : object.getChildObject()) {
                     if (child instanceof Curve) {
@@ -4088,7 +3841,8 @@ public class Main {
                     }
                 }
             }
-            for (Object object : van) {
+
+            for (Object object: van) {
                 object.draw();
                 for (Object child : object.getChildObject()) {
                     if (child instanceof Curve) {
@@ -4112,7 +3866,8 @@ public class Main {
                     }
                 }
             }
-            for (Object object : koya) {
+
+            for (Object object: koya) {
                 object.draw();
                 for (Object child : koya.get(0).getChildObject()) {
                     if (child instanceof Curve) {
@@ -4137,22 +3892,13 @@ public class Main {
                 }
             }
 
-            // Restore state
             glDisableVertexAttribArray(0);
-
-            // Poll for window events.
-            // The key callback above will only be
-            // invoked during this call.
             glfwPollEvents();
         }
     }
     public void run() {
-
         init();
         loop();
-
-        // Terminate GLFW and
-        // free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
     }
