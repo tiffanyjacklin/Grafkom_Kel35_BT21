@@ -14,4 +14,4 @@ https://docs.google.com/document/d/1yNE901XNkdCjhJ4I1OJ48-FHQM1NPFDCWNl0iuDr8Lg/
 
 Link Youtube Video: 
 
-https://www.youtube.com/watch?v=CI3iF5UMCGo
+https://youtu.be/o7YbrLLAkfw
