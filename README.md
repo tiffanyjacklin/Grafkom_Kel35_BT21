@@ -15,3 +15,5 @@ https://docs.google.com/document/d/1yNE901XNkdCjhJ4I1OJ48-FHQM1NPFDCWNl0iuDr8Lg/
 Link Youtube Video: 
 
 https://youtu.be/o7YbrLLAkfw
+
+https://youtu.be/CI3iF5UMCGo (ini video lama)
